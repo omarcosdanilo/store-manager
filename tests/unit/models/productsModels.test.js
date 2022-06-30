@@ -2,23 +2,9 @@ const { expect } = require('chai');
 const sinon = require('sinon');
 const connection = require('../../../models/connection');
 const productsModel = require('../../../models/productsModel');
+const PRODUCTS_MOCK = require('../../../mocks/productsMock');
 
-const PRODUCTS_MOCK = [
-  {
-    id: 1,
-    name: "Martelo de Thor",
-  },
-  {
-    id: 2,
-    name: "Traje de encolhimento",
-  },
-  {
-    id: 3,
-    name: "Escudo do Capitão América",
-  },
-];
-
-describe('Testa a camada models', () => {
+describe('Testa a camada productModels', () => {
   describe('Testa a função getAll', () => {
     describe("Quando não encontra nenhum produto no DB", () => {
        beforeEach(() => {
