@@ -10,7 +10,6 @@ const productsController = {
   
       res.status(200).json(products);
     } catch (error) {
-      console.log(error);
       next(error);
     }
   },
