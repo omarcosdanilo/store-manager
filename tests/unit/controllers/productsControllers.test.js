@@ -3,17 +3,30 @@ const sinon = require("sinon");
 const productsServices = require("../../../services/productsService");
 const PRODUCTS_MOCK = require("../../../mocks/productsMock");
 const productsController = require("../../../controllers/productsController");
+const productsModel = require("../../../models/productsModel");
 
 describe('Testa a camada de productsControllers', () => {
   describe('Quando retorna algum erro para a camada de productsController', () => {
     const res = {};
     const req = {};
-    const next = sinon.spy();
-    const errorIndex = '0';
+    const next = () => {};
 
-    it('A função next é chamada passando como parâmetro o indice referente a um array de erros', async () => {
-      await productsController.getAll(req, res, next);
-      expect(next.calledWith(errorIndex)).to.be.equal(true);
+    beforeEach(() => {
+      sinon.stub(productsServices, 'getAll').rejects();
+    });
+
+    afterEach(() => {
+      productsServices.getAll.restore();
+    });
+
+    it('A função next é chamada passando como parâmetro um erro caso dê erro no DB', async () => {
+     try {
+       await productsController.getAll(req, res, next);
+      
+     } catch (error) {
+       expect(next.calledWith(error)).to.be.equal(true);
+      
+     }
     })
   })
   

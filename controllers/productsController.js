@@ -1,6 +1,6 @@
 const productsService = require('../services/productsService');
 
-const ERROR_NUMBER = '0';
+// const ERROR_NUMBER = '0';
 
 const productsController = {
   
@@ -10,7 +10,8 @@ const productsController = {
   
       res.status(200).json(products);
     } catch (error) {
-      next(ERROR_NUMBER);
+      console.log(error);
+      next(error);
     }
   },
 
@@ -22,7 +23,7 @@ const productsController = {
 
       res.status(200).json(product);
     } catch (error) {
-      next(ERROR_NUMBER);
+      next(error);
     }
   },
 };

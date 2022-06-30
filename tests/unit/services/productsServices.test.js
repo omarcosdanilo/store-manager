@@ -36,4 +36,34 @@ describe('Testa a camada productServices', () => {
        });
      });
   })
+
+  describe('Testa a função getById', () => {
+
+    describe('Quando a camada de productsModels retorna undefined', () => {
+
+      beforeEach(() => {
+        sinon.stub(productsModel, 'getById').returns(undefined);
+      });
+      
+      afterEach(() => {
+        productsModel.getById.restore();
+      });
+
+      it('Deve lançar um erro',   async () => {
+        try {
+          const response = await productsServices.getById();
+        } catch (error) {
+          expect(error.message.message).to.be.equal('Product not found');
+          expect(error.status).to.be.equal(404);
+        }
+
+        // await productsServices
+        //   .getById()
+        //   .catch((error) =>
+        //     expect(error.message).to.be.equal('Product not found')
+        //   );
+      });
+
+    })
+  })
 })

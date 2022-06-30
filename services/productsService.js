@@ -1,5 +1,7 @@
 const productsModel = require('../models/productsModel');
 
+const error = require('../helpers/errorObject');
+
 const productsService = {
   
   async getAll() {
@@ -10,8 +12,8 @@ const productsService = {
 
   async getById(id) {
     const product = await productsModel.getById(id);
-
-    if (!product) throw new Error();
+    
+    if (!product) throw error[0];
     
     return product;
   },
