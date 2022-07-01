@@ -26,7 +26,7 @@ const productsController = {
     }
   },
 
-  async create(req, res, _next) {
+  async create(req, res, next) {
     try {
       const { name } = req.body;
       const data = await productsService.create(name);
@@ -34,7 +34,7 @@ const productsController = {
 
       res.status(201).json(inserted);
     } catch (error) {
-      // next(error);
+      next(error);
     }
   },
 };
