@@ -16,6 +16,13 @@ const productsModel = {
     return product;
   },
 
+  async create(productName) {
+    const query = 'INSERT INTO StoreManager.products (name) VALUES (?);';
+    const [data] = await connection.query(query, [productName]);
+
+    return data;
+  },
+
 };
 
 module.exports = productsModel;

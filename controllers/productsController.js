@@ -25,6 +25,18 @@ const productsController = {
       next(error);
     }
   },
+
+  async create(req, res, _next) {
+    try {
+      const { name } = req.body;
+      const data = await productsService.create(name);
+      const inserted = { id: data.insertId, name };
+
+      res.status(201).json(inserted);
+    } catch (error) {
+      // next(error);
+    }
+  },
 };
 
 module.exports = productsController;

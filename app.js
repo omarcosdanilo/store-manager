@@ -4,9 +4,8 @@ const errorMiddleware = require('./middlewares/errorMiddleware');
 
 const app = express();
 
-// const router = express.Router();
-
 // não remova esse endpoint, é para o avaliador funcionar
+app.use(express.json());
 app.get('/', (_request, response) => {
   response.send();
 });
