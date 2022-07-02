@@ -22,16 +22,14 @@ const salesService = {
   async checkExistsProduct(sales) {
     const productsIds = sales.map((sale) => sale.productId);
     
-    // const products = await salesProductModel.exists(productsIds);
-    
     const products = await Promise.all(
       productsIds.map((id) => salesProductModel.exists(id)),
     );
     
     const reduced = products.reduce((acc, currValue) => acc.concat(currValue), []);
-    const exists = productsIds.map((item, index) => item === reduced[index].id);
+    const exists = productsIds.length === reduced.length;
     
-    if (exists.includes(false)) throw error[6];
+    if (!exists) throw error[6];
     
     return true;
   },

@@ -4,7 +4,6 @@ const salesProductModel = {
 
   async exists(id) {
     const query = 'SELECT * FROM StoreManager.products WHERE id = ?;';
-    // const [data] = await connection.query(query, [ids[0], ids[ids.length - 1]]);
     const [data] = await connection.query(query, [id]);
 
     return data;
