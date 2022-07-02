@@ -22,20 +22,20 @@ describe('Testa a camada productServices', () => {
       })
     })
 
-     describe("Quando a camada de productsModels encontra produtos no DB", () => {
-       beforeEach(() => {
-         sinon.stub(productsModel, "getAll").resolves(PRODUCTS_MOCK);
-       });
+    describe("Quando a camada de productsModels encontra produtos no DB", () => {
+      beforeEach(() => {
+        sinon.stub(productsModel, "getAll").resolves(PRODUCTS_MOCK);
+      });
 
-       afterEach(() => {
-         productsModel.getAll.restore();
-       });
-       it("Retorna um array de objetos", async () => {
-         const result = await productsModel.getAll();
-         expect(result).to.be.deep.equal(PRODUCTS_MOCK);
-       });
-     });
-  })
+      afterEach(() => {
+        productsModel.getAll.restore();
+      });
+      it("Retorna um array de objetos", async () => {
+        const result = await productsModel.getAll();
+        expect(result).to.be.deep.equal(PRODUCTS_MOCK);
+      });
+    });
+  });
 
   describe('Testa a função getById', () => {
 
@@ -49,7 +49,7 @@ describe('Testa a camada productServices', () => {
         productsModel.getById.restore();
       });
 
-      it('Deve lançar um erro',   async () => {
+      it('Deve lançar um erro', async () => {
         try {
           const response = await productsServices.getById();
         } catch (error) {
@@ -65,5 +65,35 @@ describe('Testa a camada productServices', () => {
       });
 
     })
-  })
-})
+  });
+
+  describe('Testa a função create', () => {
+    
+    it('Deve chamar a função validateProductName', async () => {
+      sinon.spy(productsServices, "validateProductName");
+      await productsServices.create('teste');
+
+      sinon.assert.calledWith(productsServices.validateProductName, 'teste');
+       productsServices.validateProductName.restore();
+    });
+
+    it('Deve retornar um objeto em caso o nome do produto seja validado com sucesso', async () => {
+
+      sinon.stub(productsServices, 'validateProductName').resolves('nomeQualquer');
+      sinon.stub(productsModel, 'create').resolves({});
+      
+      const data = await productsServices.create();
+
+      expect(data).to.be.an('object');
+
+      sinon.restore();
+    })
+  });
+
+  // describe('Testa a função validateProductName', () => {
+
+  //   it.only('Deve lançar um erro se o nome não existir', async () => {
+
+  //   });
+  // });
+});

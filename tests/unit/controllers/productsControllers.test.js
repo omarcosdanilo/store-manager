@@ -117,4 +117,34 @@ describe('Testa a camada de productsControllers', () => {
       });
     });
   })
+
+  describe('Testa a função create', () => {
+
+    describe('Quando um erro é retonardo da camada de productService', () => {
+      const res = {};
+      const req = {};
+      const next = sinon.spy();
+
+      beforeEach(() => {
+        sinon.stub(productsServices, 'create').returns(undefined);
+      });
+
+      afterEach(() => {
+        productsServices.create.restore();
+      });
+
+      it('A função next é chamada com um objeto de erro', async () => {
+
+        try {
+          await productsController.create(req, res, next)
+        } catch (error) {
+          expect(
+            next.calledWith(error)
+          ).to.be.equal(true);
+          
+        }
+       
+      })
+    })
+  })
 })

@@ -3,6 +3,10 @@ const sinon = require('sinon');
 const connection = require('../../../models/connection');
 const productsModel = require('../../../models/productsModel');
 const PRODUCTS_MOCK = require('../../../mocks/productsMock');
+const chaiAsPromised = require('chai-as-promised');
+const chai = require('chai');
+
+chai.use(chaiAsPromised);
 
 describe('Testa a camada productModels', () => {
   describe('Testa a função getAll', () => {
@@ -75,5 +79,20 @@ describe('Testa a camada productModels', () => {
            expect(result).to.be.deep.equal(payload);
          });
     })
+  })
+
+  describe('Testa a função create', () => {
+
+    it('Deve disparar um erro caso dê problema no mysql', async () => {
+      sinon.stub(connection, 'query').rejects()
+      chai.expect(productsModel.create('ProdutoX')).to.eventually.be.rejected;
+      sinon.restore();
+    });
+
+    it('Em caso de sucesso Deve retornar um objeto', async () => {
+      sinon.stub(connection, 'query').resolves([{}])
+      const data = await productsModel.create('ProdutoX');
+      expect(data).to.be.an('object');
+    });
   })
 })
