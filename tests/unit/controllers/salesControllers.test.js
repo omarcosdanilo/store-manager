@@ -1,7 +1,11 @@
 const { expect } = require("chai");
 const sinon = require("sinon");
+const chai = require("chai");
+const chaiAsPromised = require("chai-as-promised");
 const salesController = require("../../../controllers/salesController");
 const salesService = require("../../../services/salesServices");
+
+chai.use(chaiAsPromised);
 
 const RESPONSE_MOCK = [
   {
@@ -68,7 +72,7 @@ describe('Testa a função getAll da camada salesController', () => {
       expect(res.json.calledWith(RESPONSE_MOCK)).to.be.equal(true);
     })
   })
-})
+});
 
 describe('Testa a função create da camada salesController', () => {
 
@@ -142,4 +146,40 @@ describe('Testa a função create da camada salesController', () => {
       ).to.be.equal(true);
     });
   });
+});
+
+describe('Testa a função getById da salesController', () => {
+
+  describe('A função getById', () => {
+
+    res = {};
+    req = {};
+
+    afterEach(() => {
+      sinon.restore();
+    });
+
+    res.status = sinon.stub().returns(res);
+    res.json = sinon.stub().returns();
+
+    it("Deve disparar o erro caso o salesService.checkExistsSale(id) dispare um erro", () => {
+      sinon.stub(salesService, 'checkExistsSale').rejects();
+      return chai.expect(salesController.getById({}, {})).to.be.eventually.rejected
+    });
+
+    it("Deve disparar o erro caso o salesService.getById(id) dispare um erro", () => {
+      sinon.stub(salesService, "getById").rejects();
+      return chai.expect(salesController.getById({}, {})).to.be.eventually.rejected;
+    });
+
+    it("Deve chamar o res.json passando um array com as vendas encontradas", async () => {
+      sinon.stub(salesService, "checkExistsSale").resolves(true);
+       sinon.stub(salesService, "getById").resolves([[]]);
+      req.params = { id: 1 };
+      await salesController.getById(req, res);
+
+      expect(res.status.calledWith(200)).to.be.equal(true);
+      expect(res.json.calledWith([[]])).to.be.equal(true);
+    });
+  })
 })

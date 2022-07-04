@@ -1,7 +1,11 @@
 const { expect } = require('chai');
+const chai = require("chai");
 const sinon = require('sinon');
+const chaiAsPromised = require("chai-as-promised");
 const connection = require('../../../models/connection');
 const salesModels = require('../../../models/salesModel');
+
+chai.use(chaiAsPromised);
 
 const CREATED_RESPONSE = {
   fieldCount: 0,
@@ -48,4 +52,59 @@ describe('Testa a função getAll da camada salesModels', () => {
       expect(data).to.be.an('array');
     })
   });
+})
+
+describe('Testa a função "exists" da camada salesModel', () => {
+
+  describe('A função "exists"', () => {
+
+    afterEach(() => {
+      sinon.restore();
+    });
+
+    it('Deve disparar um erro caso dê problema no DB', () => {
+      sinon.stub(connection, 'query').rejects();
+      chai.expect(salesModels.exists(1)).to.eventually.be.rejected;
+    });
+
+    it('Deve disparar um erro caso o mysql retorna algo que não seja uma lista', () => {
+      sinon.stub(connection, 'query').resolves([{ insertId: 1 }]);
+      chai.expect(salesModels.exists(1)).to.eventually.be.rejected;
+    });
+
+    it('Deve retorna false caso não encontre a venda', () => {
+      sinon.stub(connection, 'query').resolves([[]]);
+      chai.expect(salesModels.exists(1)).to.eventually.be.false;
+    });
+
+    it('Deve retornar true se encontrar a venda', () => {
+      sinon.stub(connection, 'query').resolves([[{}]]);
+      chai.expect(salesModels.exists(1)).to.be.eventually.true
+    })
+  })
+})
+
+describe('Testa a função getById da camada salesModel', () => {
+
+  describe('A função getById', () => {
+
+    afterEach(() => {
+      sinon.restore();
+    })
+    
+    it('deve retornar um erro caso dê problema no DB', () => {
+      sinon.stub(connection, 'query').rejects();
+      chai.expect(salesModels.getById(1)).to.eventually.be.rejected;
+    });
+
+    it('deve retornar um erro caso o DB não retorne uma lista', () => {
+      sinon.stub(connection, 'query').rejects();
+      chai.expect(salesModels.getById(1)).to.eventually.be.rejected;
+    });
+
+    it('deve retornar um array caso encontre vendas com o id passado por parâmetro', () => {
+      sinon.stub(connection, 'query').resolves([[]]);
+      chai.expect(salesModels.getById(1)).to.eventually.be.equal('array');
+    });
+  })
 })
