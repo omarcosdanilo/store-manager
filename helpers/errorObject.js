@@ -12,6 +12,7 @@ const error = [
     message: { message: '"quantity" must be greater than or equal to 1' },
   },
   { status: 404, message: { message: 'Product not found' } },
+  { status: 404, message: { message: 'Sale not found' } },
 ];
 
 module.exports = error;

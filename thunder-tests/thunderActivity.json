@@ -59,5 +59,76 @@
       "form": []
     },
     "tests": []
+  },
+  {
+    "_id": "0e4c999f-2986-4c21-a28c-2be0909804ac",
+    "colId": "history",
+    "containerId": "",
+    "name": "localhost:3000/sales/1",
+    "url": "localhost:3000/sales/1",
+    "method": "POST",
+    "sortNum": 0,
+    "created": "2022-07-04T15:57:30.141Z",
+    "modified": "2022-07-04T15:57:30.209Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "  [\n    {\n      \"productId\": 1,\n      \"quantity\":1\n    },\n    {\n      \"productId\": 2,\n      \"quantity\":5\n    }\n  ]",
+      "form": []
+    },
+    "tests": []
+  },
+  {
+    "_id": "daa5174d-8214-4b9f-a4bb-e659f019044f",
+    "colId": "history",
+    "containerId": "",
+    "name": "localhost:3000/sales/1",
+    "url": "localhost:3000/sales/1",
+    "method": "GET",
+    "sortNum": 0,
+    "created": "2022-07-04T15:57:50.469Z",
+    "modified": "2022-07-04T17:04:59.681Z",
+    "headers": [],
+    "params": [],
+    "tests": []
+  },
+  {
+    "_id": "a1beefef-0d0d-4ee2-95dc-8dcf475cb449",
+    "colId": "history",
+    "containerId": "",
+    "name": "localhost:3000/sales/3",
+    "url": "localhost:3000/sales/3",
+    "method": "GET",
+    "sortNum": 0,
+    "created": "2022-07-04T16:46:58.336Z",
+    "modified": "2022-07-04T17:02:30.595Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "  [\n    {\n      \"productId\": 1,\n      \"quantity\":1\n    },\n    {\n      \"productId\": 2,\n      \"quantity\":5\n    }\n  ]",
+      "form": []
+    },
+    "tests": []
+  },
+  {
+    "_id": "f240e1f8-ee10-4038-aaba-c480663038db",
+    "colId": "history",
+    "containerId": "",
+    "name": "localhost:3000/sales/2",
+    "url": "localhost:3000/sales/2",
+    "method": "GET",
+    "sortNum": 0,
+    "created": "2022-07-04T17:02:40.259Z",
+    "modified": "2022-07-04T17:02:40.284Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "  [\n    {\n      \"productId\": 1,\n      \"quantity\":1\n    },\n    {\n      \"productId\": 2,\n      \"quantity\":5\n    }\n  ]",
+      "form": []
+    },
+    "tests": []
   }
 ]

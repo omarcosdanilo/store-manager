@@ -34,6 +34,14 @@ const salesService = {
     return true;
   },
 
+  async checkExistsSale(id) {
+    const exist = await salesModel.exists(id);
+
+    if (!exist) throw error[7];
+
+    return true;
+  },
+
   async create(sales) {
     this.validateProductId(sales);
     this.validateQuantity(sales);
@@ -56,6 +64,17 @@ const salesService = {
       quantity: obj.quantity,
     }));
 
+    return formated;
+  },
+
+  async getById(id) {
+    const data = await salesModel.getById(id);
+
+    const formated = data.map((obj) => ({
+      date: obj.date,
+      productId: obj.productId,
+      quantity: obj.quantity,
+    }));
     return formated;
   },
 };

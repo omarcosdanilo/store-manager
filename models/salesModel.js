@@ -18,6 +18,26 @@ const salesModel = {
 
     return data;
   },
+
+  async exists(id) {
+    const query = 'SELECT 1 FROM StoreManager.sales WHERE id = ?;';
+
+    const [[data]] = await connection.query(query, [id]);
+
+    return !!data;
+  },
+
+  async getById(id) {
+      const query = `SELECT sp.sale_id as saleId, s.date, sp.product_id as productId, sp.quantity
+        FROM StoreManager.sales_products as sp
+        INNER JOIN StoreManager.sales as s
+        ON s.id =  sp.sale_id
+        WHERE sp.sale_id = ?;`;
+    
+    const [data] = await connection.query(query, [id]);
+
+    return data;
+  },
 };
 
 module.exports = salesModel;
