@@ -7,6 +7,13 @@ const salesModel = {
     const [data] = await connection.query(query);
     return data.insertId;
   },
+
+  async getAll() {
+    const query = 'SELECT * FROM StoreManager.sales_products;';
+    const [data] = await connection.query(query);
+
+    return data;
+  },
 };
 
 module.exports = salesModel;

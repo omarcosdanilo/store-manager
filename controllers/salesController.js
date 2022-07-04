@@ -15,6 +15,12 @@ const salesController = {
       next(error);
     }
   },
+
+  async getAll(req, res, _next) {
+    const data = await salesService.getAll();
+
+    res.status(200).json(data);
+  },
 };
 
 module.exports = salesController;

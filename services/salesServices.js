@@ -45,6 +45,17 @@ const salesService = {
 
     return id;
   },
+
+  async getAll() {
+    const data = await salesModel.getAll();
+
+    const formated = data.map((obj) => ({
+      saleId: ,
+      productId ,
+    }));
+
+    return data;
+  },
 };
 
 module.exports = salesService;
