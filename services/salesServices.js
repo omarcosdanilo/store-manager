@@ -75,7 +75,7 @@ const salesService = {
       productId: obj.productId,
       quantity: obj.quantity,
     }));
-    
+
     return formated;
   },
 };
