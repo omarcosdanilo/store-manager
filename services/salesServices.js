@@ -50,11 +50,13 @@ const salesService = {
     const data = await salesModel.getAll();
 
     const formated = data.map((obj) => ({
-      saleId: ,
-      productId ,
+      saleId: obj.sale_id,
+      date: obj.date,
+      productId: obj.product_id,
+      quantity: obj.quantity,
     }));
 
-    return data;
+    return formated;
   },
 };
 

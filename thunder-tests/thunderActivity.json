@@ -36,9 +36,28 @@
     "method": "GET",
     "sortNum": 0,
     "created": "2022-07-01T16:01:30.957Z",
-    "modified": "2022-07-02T21:30:09.215Z",
+    "modified": "2022-07-04T13:18:11.755Z",
     "headers": [],
     "params": [],
+    "tests": []
+  },
+  {
+    "_id": "cbabe03e-6876-4889-b9f6-1fd7a2f92f75",
+    "colId": "history",
+    "containerId": "",
+    "name": "localhost:3000/sales",
+    "url": "localhost:3000/sales",
+    "method": "POST",
+    "sortNum": 0,
+    "created": "2022-07-04T13:50:45.458Z",
+    "modified": "2022-07-04T15:23:59.065Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "  [\n    {\n      \"productId\": 1,\n      \"quantity\":1\n    },\n    {\n      \"productId\": 2,\n      \"quantity\":5\n    }\n  ]",
+      "form": []
+    },
     "tests": []
   }
 ]

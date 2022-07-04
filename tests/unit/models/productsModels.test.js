@@ -86,12 +86,14 @@ describe('Testa a camada productModels', () => {
     it('Deve disparar um erro caso dê problema no mysql', async () => {
       sinon.stub(connection, 'query').rejects()
       chai.expect(productsModel.create('ProdutoX')).to.eventually.be.rejected;
+      connection.query.restore();
       sinon.restore();
     });
 
     it('Em caso de sucesso Deve retornar um objeto', async () => {
       sinon.stub(connection, 'query').resolves([{}])
       const data = await productsModel.create('ProdutoX');
+      connection.query.restore();
       expect(data).to.be.an('object');
     });
   })
