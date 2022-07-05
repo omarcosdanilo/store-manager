@@ -157,6 +157,11 @@ describe('Testa a camada productModels', () => {
         sinon.stub(connection, 'query').rejects();
         chai.expect(productsModel.delete(1)).to.eventually.be.rejected;
       });
+
+      it('Deve deletar o produto', () => {
+        sinon.stub(connection, 'query').resolves();
+        chai.expect(productsModel.delete(1)).to.eventually.be.ok;
+      });
     });
   });
 })

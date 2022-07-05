@@ -41,26 +41,24 @@ describe('Testa a camada productServices', () => {
     });
   });
 
-  describe('Testa a função getById', () => {
-
-    describe('A função getById', () => {
-
+  describe("Testa a função getById da productServices", () => {
+    describe("A função getById", () => {
       // beforeEach(() => {
       //   sinon.stub(productsModel, 'getById').returns(undefined);
       // });
-      
+
       afterEach(() => {
         // productsModel.getById.restore();
         sinon.restore();
       });
 
-      it('Deve lançar um erro se não encontrar o produto', async () => {
+      it("Deve lançar um erro se não encontrar o produto", async () => {
         sinon.stub(productsModel, "getById").returns(undefined);
 
         try {
           const response = await productsServices.getById();
         } catch (error) {
-          expect(error.message.message).to.be.equal('Product not found');
+          expect(error.message.message).to.be.equal("Product not found");
           expect(error.status).to.be.equal(404);
         }
 
@@ -71,103 +69,117 @@ describe('Testa a camada productServices', () => {
         //   );
       });
 
-      it('Deve retornar o produto caso seja encontrado no DB', () => {
-        sinon.stub(productsModel, 'getById').resolves(1);
+      it("Deve retornar o produto caso seja encontrado no DB", () => {
+        sinon.stub(productsModel, "getById").resolves(1);
         chai.expect(productsServices.getById(1)).to.eventually.be.deep.equal({
           id: 1,
           name: "Machado do Thor Stormbreaker",
         });
-      })
-
-    })
+      });
+    });
   });
 
-  describe('Testa a função create', () => {
-    
-    it('Deve chamar a função validateProductName', async () => {
+  describe("Testa a função create da productServices", () => {
+    it("Deve chamar a função validateProductName", async () => {
       sinon.spy(productsServices, "validateProductName");
-      await productsServices.create('teste');
+      await productsServices.create("teste");
 
-      sinon.assert.calledWith(productsServices.validateProductName, 'teste');
-       productsServices.validateProductName.restore();
+      sinon.assert.calledWith(productsServices.validateProductName, "teste");
+      productsServices.validateProductName.restore();
     });
 
-    it('Deve retornar um objeto em caso o nome do produto seja validado com sucesso', async () => {
+    it("Deve retornar um objeto em caso o nome do produto seja validado com sucesso", async () => {
+      sinon
+        .stub(productsServices, "validateProductName")
+        .resolves("nomeQualquer");
+      sinon.stub(productsModel, "create").resolves({});
 
-      sinon.stub(productsServices, 'validateProductName').resolves('nomeQualquer');
-      sinon.stub(productsModel, 'create').resolves({});
-      
       const data = await productsServices.create();
 
-      expect(data).to.be.an('object');
+      expect(data).to.be.an("object");
 
       sinon.restore();
-    })
+    });
   });
 
-  describe("Testa a função checkExistsProduct", () => {
-
+  describe("Testa a função checkExistsProduct da productServices", () => {
     describe("A função checkExistsProduct", () => {
-
       afterEach(() => {
         sinon.restore();
       });
-    
-      it("Deve lançar um erro se der problema no DB",  () => {
-        sinon.stub(productsModel, 'exists').rejects();
-        chai.expect(productsServices.checkExistsProduct(1)).to.eventually.be.rejected;
+
+      it("Deve lançar um erro se der problema no DB", () => {
+        sinon.stub(productsModel, "exists").rejects();
+        chai.expect(productsServices.checkExistsProduct(1)).to.eventually.be
+          .rejected;
       });
 
-      it("Deve lançar um erro se o produto não existir no DB",  () => {
-        sinon.stub(productsModel, 'exists').returns(false);
+      it("Deve lançar um erro se o produto não existir no DB", () => {
+        sinon.stub(productsModel, "exists").returns(false);
         chai
           .expect(productsServices.checkExistsProduct(1))
           .to.eventually.throws("Product not found");
       });
 
-      it("Deve retornar true se o produto existir no DB",  () => {
-        sinon.stub(productsModel, 'exists').resolves(1);
-        chai.expect(productsServices.checkExistsProduct(1)).to.eventually.be.true;
+      it("Deve retornar true se o produto existir no DB", () => {
+        sinon.stub(productsModel, "exists").resolves(1);
+        chai.expect(productsServices.checkExistsProduct(1)).to.eventually.be
+          .true;
       });
     });
   });
 
-  describe('Testa a função update', () => {
-
-    describe('A função update', () => {
-
+  describe("Testa a função update da productServices", () => {
+    describe("A função update", () => {
       afterEach(() => {
         sinon.restore();
       });
 
-      it('Deve retornar um erro caso dê erro no DB', () => {
-        sinon.stub(productsModel, 'update').rejects();
-        chai.expect(productsServices.update(1, "Martelo do Marcos")).to.be.eventually.rejected;
+      it("Deve retornar um erro caso dê erro no DB", () => {
+        sinon.stub(productsModel, "update").rejects();
+        chai.expect(productsServices.update(1, "Martelo do Marcos")).to.be
+          .eventually.rejected;
       });
 
-      it('Deve atualizar o DB caso todas as validações estejam ok', () => {
-          sinon.stub(productsModel, "update").resolves(1, "Martelo do Marcos");
-          chai.expect(productsServices.update(1, "Martelo do Marcos")).to.be.eventually.ok
+      it("Deve atualizar o DB caso todas as validações estejam ok", () => {
+        sinon.stub(productsModel, "update").resolves(1, "Martelo do Marcos");
+        chai.expect(productsServices.update(1, "Martelo do Marcos")).to.be
+          .eventually.ok;
       });
     });
   });
 
-  describe("Testa a função validateProductName", () => {
-
+  describe("Testa a função validateProductName da productServices", () => {
     describe("A função validateProductName", () => {
-  
-      it('Deve lançar um erro caso o parâmetro passado esteja incorreto', () => {
+      it("Deve lançar um erro caso o parâmetro passado esteja incorreto", () => {
         chai
           .expect(() => productsServices.validateProductName("a"))
           .to.throws('"name" length must be at least 5 characters long');
       });
 
-      it('Deve lançar um erro caso não passe parâmetro', () => {
+      it("Deve lançar um erro caso não passe parâmetro", () => {
         chai
           .expect(() => productsServices.validateProductName())
           .to.throws('"name" is required');
       });
     });
-
   });
+
+    describe("Testa a função delete da productServices", () => {
+      describe("A função delete", () => {
+        afterEach(() => {
+          sinon.restore();
+        });
+
+        it("Deve lançar um erro caso dê problema no DB", () => {
+          sinon.stub(productsModel, 'delete').rejects();
+          chai.expect(productsServices.delete(1)).to.eventually.be.rejected;
+        });
+
+        it("Deve deletar caso não tenha nenhum problema", () => {
+          sinon.stub(productsModel, 'delete').resolves();
+          chai.expect(productsServices.delete(1)).to.eventually.be.ok;
+        });
+      });
+    });
 });
