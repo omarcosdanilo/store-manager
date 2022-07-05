@@ -180,13 +180,13 @@ describe('Testa a camada de productsControllers', () => {
     describe('A função update', () => {
       const res = {};
       const req = {};
-      const next = sinon.spy();
+      const next = () => { };
       
       beforeEach(() => {
         req.body = { name: 'teste' };
         req.params = { id: 1 }
         res.status = sinon.stub().returns(res);
-        // res.json = sinon.stub().returns();
+        res.json = sinon.stub().returns();
         sinon.stub(productsServices, "checkExistsProduct").resolves(1);
         sinon.stub(productsServices, "validateProductName").returns(true);
         sinon.stub(productsServices, "update").resolves(true);
@@ -197,14 +197,40 @@ describe('Testa a camada de productsControllers', () => {
       });
 
       it("Deve atualizar o DB Se todas as validações retornarem true", async () => {
-        try {
-          await productsController.create(req, res, next);
+        await productsController.update(req, res, next);
+        expect(res.status.calledWith(200)).to.be.equal(true);
+        expect(res.json.calledWith({ id: 1, name: 'teste' })).to.be.equal(true);
+      });
+    });
 
-          expect(res.status.calledWith(200)).to.be.equal(true);
+    describe('A função update', () => {
+      const res = {};
+      const req = {};
+      const next = sinon.spy();
+
+      afterEach(() => {
+        sinon.restore();
+      });
+
+      it('Deve lançar um erro no next caso a função checkExistsProduct lance um erro', async () => {
+        sinon.stub(productsServices, 'checkExistsProduct').rejects();
+        try {
+          await productsController.update(req, res, next);
+          
         } catch (error) {
-          expect(next.calledWith(error)).to.not.be.equal(true);
+          expect(next.calledWith(error)).to.be.equal(true);
+        }
+
+      });
+
+      it("Deve lançar um erro no next caso a função validateProductName lance um erro", async () => {
+        sinon.stub(productsServices, "validateProductName").throws();
+        try {
+          await productsController.update(req, res, next);
+        } catch (error) {
+          expect(next.calledWith(error)).to.be.equal(true);
         }
       });
     });
-  })
+  });
 });
