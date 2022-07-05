@@ -4,9 +4,7 @@ const error = require('../helpers/errorObject');
 
 const productsService = {
   validateProductName(name) {
-    // if (!name) throw Error(error[1]);
     if (!name) throw Error('"name" is required');
-    // if (name.length < 5) throw Error(error[2]);
     if (name.length < 5) throw Error('"name" length must be at least 5 characters long');
   },
 

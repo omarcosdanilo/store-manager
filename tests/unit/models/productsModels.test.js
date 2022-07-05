@@ -40,10 +40,8 @@ describe('Testa a camada productModels', () => {
     })
   });
 
-  describe('Testa a função getById', () => {
-
-    describe('Quando não encontra um produto com o id passado por parametro', () => {
-
+  describe("Testa a função getById da productModels", () => {
+    describe("Quando não encontra um produto com o id passado por parametro", () => {
       beforeEach(() => {
         sinon.stub(connection, "query").resolves([[]]);
       });
@@ -51,15 +49,15 @@ describe('Testa a camada productModels', () => {
       afterEach(() => {
         connection.query.restore();
       });
-      
-      it('Deve retornar undefined', async () => {
+
+      it("Deve retornar undefined", async () => {
         const result = await productsModel.getById(1);
 
         expect(result).to.be.undefined;
       });
     });
 
-    describe('Quando encontra um produto com o id passado por parametro', () => {
+    describe("Quando encontra um produto com o id passado por parametro", () => {
       const payload = {
         id: 1,
         name: "Martelo de Thor",
@@ -72,33 +70,32 @@ describe('Testa a camada productModels', () => {
       afterEach(() => {
         connection.query.restore();
       });
-      
+
       it('Deve retornar um objeto com o formato { id: idProduct , name: "nameProduct" }', async () => {
         const result = await productsModel.getById(1);
 
         expect(result).to.be.deep.equal(payload);
       });
-    })
+    });
   });
 
-  describe('Testa a função create', () => {
-
-    it('Deve disparar um erro caso dê problema no mysql', async () => {
-      sinon.stub(connection, 'query').rejects()
-      chai.expect(productsModel.create('ProdutoX')).to.eventually.be.rejected;
+  describe("Testa a função create da productModels", () => {
+    it("Deve disparar um erro caso dê problema no mysql", async () => {
+      sinon.stub(connection, "query").rejects();
+      chai.expect(productsModel.create("ProdutoX")).to.eventually.be.rejected;
       connection.query.restore();
       sinon.restore();
     });
 
-    it('Em caso de sucesso Deve retornar um objeto', async () => {
-      sinon.stub(connection, 'query').resolves([{}])
-      const data = await productsModel.create('ProdutoX');
+    it("Em caso de sucesso Deve retornar um objeto", async () => {
+      sinon.stub(connection, "query").resolves([{}]);
+      const data = await productsModel.create("ProdutoX");
       connection.query.restore();
-      expect(data).to.be.an('object');
+      expect(data).to.be.an("object");
     });
   });
 
-  describe('Testa a função exists', () => {
+  describe("Testa a função exists da productModels", () => {
     describe('A função "exists"', () => {
       afterEach(() => {
         sinon.restore();
@@ -126,25 +123,40 @@ describe('Testa a camada productModels', () => {
     });
   });
 
-  describe('Testa a função update', () => {
+  describe("Testa a função update da productModels", () => {
+    describe("A função update", () => {
+      afterEach(() => {
+        sinon.restore();
+      });
 
-    describe('A função update', () => {
+      it("Deve retornar um erro caso dê problema no DB", () => {
+        sinon.stub(connection, "query").rejects();
+
+        chai.expect(productsModel.update(1, "Martelo do Batman")).to.eventually
+          .be.rejected;
+      });
+
+      it("Deve atualizar caso não dê problema no DB", () => {
+        sinon.stub(connection, "query").resolves(1, "Martelo do Batman");
+
+        chai.expect(productsModel.update(1, "Martelo do Batman")).to.be
+          .eventually.ok;
+      });
+    });
+  });
+  
+  describe('Testa a função delete da productModels', () => {
+
+    describe('A função delete', () => {
 
       afterEach(() => {
         sinon.restore();
       });
 
-      it('Deve retornar um erro caso dê problema no DB', () => {
+      it('Deve lançar um erro caso dê problema no DB', () => {
         sinon.stub(connection, 'query').rejects();
-
-        chai.expect(productsModel.update(1, 'Martelo do Batman')).to.eventually.be.rejected;
+        chai.expect(productsModel.delete(1)).to.eventually.be.rejected;
       });
-
-      it('Deve atualizar caso não dê problema no DB', () => {
-        sinon.stub(connection, "query").resolves(1, "Martelo do Batman");
-
-        chai.expect(productsModel.update(1, 'Martelo do Batman')).to.be.eventually.ok;
-      })
     });
   });
 })
