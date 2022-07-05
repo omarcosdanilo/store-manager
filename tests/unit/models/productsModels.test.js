@@ -99,30 +99,52 @@ describe('Testa a camada productModels', () => {
   });
 
   describe('Testa a função exists', () => {
-     describe('A função "exists"', () => {
-       afterEach(() => {
-         sinon.restore();
-       });
+    describe('A função "exists"', () => {
+      afterEach(() => {
+        sinon.restore();
+      });
 
-       it("Deve disparar um erro caso dê problema no DB", () => {
-         sinon.stub(connection, "query").rejects();
-         chai.expect(productsModel.exists(1)).to.eventually.be.rejected;
-       });
+      it("Deve disparar um erro caso dê problema no DB", () => {
+        sinon.stub(connection, "query").rejects();
+        chai.expect(productsModel.exists(1)).to.eventually.be.rejected;
+      });
 
-       it("Deve disparar um erro caso o mysql retorna algo que não seja uma lista", () => {
-         sinon.stub(connection, "query").resolves([{ insertId: 1 }]);
-         chai.expect(productsModel.exists(1)).to.eventually.be.rejected;
-       });
+      it("Deve disparar um erro caso o mysql retorna algo que não seja uma lista", () => {
+        sinon.stub(connection, "query").resolves([{ insertId: 1 }]);
+        chai.expect(productsModel.exists(1)).to.eventually.be.rejected;
+      });
 
-       it("Deve retorna false caso não encontre a venda", () => {
-         sinon.stub(connection, "query").resolves([[]]);
-         chai.expect(productsModel.exists(1)).to.eventually.be.false;
-       });
+      it("Deve retorna false caso não encontre a venda", () => {
+        sinon.stub(connection, "query").resolves([[]]);
+        chai.expect(productsModel.exists(1)).to.eventually.be.false;
+      });
 
-       it("Deve retornar true se encontrar a venda", () => {
-         sinon.stub(connection, "query").resolves([[{}]]);
-         chai.expect(productsModel.exists(1)).to.be.eventually.true;
-       });
-     });
-  })
+      it("Deve retornar true se encontrar a venda", () => {
+        sinon.stub(connection, "query").resolves([[{}]]);
+        chai.expect(productsModel.exists(1)).to.be.eventually.true;
+      });
+    });
+  });
+
+  describe('Testa a função update', () => {
+
+    describe('A função update', () => {
+
+      afterEach(() => {
+        sinon.restore();
+      });
+
+      it('Deve retornar um erro caso dê problema no DB', () => {
+        sinon.stub(connection, 'query').rejects();
+
+        chai.expect(productsModel.update(1, 'Martelo do Batman')).to.eventually.be.rejected;
+      });
+
+      it('Deve atualizar caso não dê problema no DB', () => {
+        sinon.stub(connection, "query").resolves(1, "Martelo do Batman");
+
+        chai.expect(productsModel.update(1, 'Martelo do Batman')).to.be.eventually.ok;
+      })
+    });
+  });
 })
