@@ -37,6 +37,21 @@ const productsController = {
       next(error);
     }
   },
+
+  async update(req, res, next) {
+    try {
+      const { id } = req.params;
+      const { name } = req.body;
+
+      await productsService.checkExistsProduct(id);
+      productsService.validateProductName(name);
+      await productsService.update(id, name);
+
+      res.status(200).json({ id, name });
+    } catch (error) {
+      next(error);
+    }
+  },
 };
 
 module.exports = productsController;

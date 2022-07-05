@@ -80,8 +80,8 @@ describe('Testa a função "exists" da camada salesModel', () => {
     it('Deve retornar true se encontrar a venda', () => {
       sinon.stub(connection, 'query').resolves([[{}]]);
       chai.expect(salesModels.exists(1)).to.be.eventually.true
-    })
-  })
+    });
+  });
 })
 
 describe('Testa a função getById da camada salesModel', () => {

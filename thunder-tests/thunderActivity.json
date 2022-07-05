@@ -130,5 +130,43 @@
       "form": []
     },
     "tests": []
+  },
+  {
+    "_id": "fa72f622-f8ac-4b1d-9196-7324c126d13f",
+    "colId": "history",
+    "containerId": "",
+    "name": "localhost:3000/products/1",
+    "url": "localhost:3000/products/1",
+    "method": "PUT",
+    "sortNum": 0,
+    "created": "2022-07-04T23:39:09.938Z",
+    "modified": "2022-07-04T23:58:38.230Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "  {\n    \"name\": \"carrinho de mão\"\n  }",
+      "form": []
+    },
+    "tests": []
+  },
+  {
+    "_id": "a991c45b-4763-4c60-b59b-c5d118212b2a",
+    "colId": "history",
+    "containerId": "",
+    "name": "localhost:3000/products/20",
+    "url": "localhost:3000/products/20",
+    "method": "PUT",
+    "sortNum": 0,
+    "created": "2022-07-04T23:50:29.877Z",
+    "modified": "2022-07-04T23:50:29.989Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "  {\n    \"name\": \"Martelo do Batman\"\n  }",
+      "form": []
+    },
+    "tests": []
   }
 ]
