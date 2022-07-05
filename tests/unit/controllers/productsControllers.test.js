@@ -6,7 +6,7 @@ const productsController = require("../../../controllers/productsController");
 const productsModel = require("../../../models/productsModel");
 
 describe('Testa a camada de productsControllers', () => {
-  describe("Testa a função getAll da camada de productsController", () => {
+  describe("Testa a função getAll da productsController", () => {
     describe("Quando retorna algum erro para a camada de productsController", () => {
       const res = {};
       const req = {};
@@ -58,7 +58,7 @@ describe('Testa a camada de productsControllers', () => {
     });
   });
 
-  describe('Testa a função getById da camada de productsController', () => {
+  describe('Testa a função getById da productsController', () => {
 
     describe("Quando retorna algum erro para a camada de productsController", () => {
       const res = {};
@@ -118,15 +118,14 @@ describe('Testa a camada de productsControllers', () => {
     });
   })
 
-  describe('Testa a função create', () => {
-
-    describe('Quando o payload não é informado', () => {
+  describe("Testa a função create da productControllers", () => {
+    describe("Quando o payload não é informado", () => {
       const res = {};
       const req = {};
       const next = () => {};
 
       beforeEach(() => {
-        req.body = {}
+        req.body = {};
         // res.status = sinon.stub().returns(res);
         // req.send = sinon.stub().returns();
       });
@@ -135,36 +134,33 @@ describe('Testa a camada de productsControllers', () => {
         sinon.restore();
       });
 
-      it('A função next é chamada com um objeto de erro', async () => {
+      it("A função next é chamada com um objeto de erro", async () => {
         try {
-          sinon.stub(productsServices, 'create').rejects();
-          
+          sinon.stub(productsServices, "create").rejects();
+
           await productsController.create(req, res, next);
-          
         } catch (error) {
           expect(next.calledWith(error)).to.be.equal(true);
         }
-        
       });
     });
 
-    describe('Quando o payload é informado corretamente', () => {
+    describe("Quando o payload é informado corretamente", () => {
       const res = {};
       const req = {};
-      const next = () => { };
-      
+      const next = () => {};
+
       beforeEach(() => {
-        req.body = { name: 'Teste' };
+        req.body = { name: "Teste" };
 
         res.status = sinon.stub().returns(res);
         res.json = sinon.stub().returns();
-      })
+      });
       afterEach(() => {
         sinon.restore();
-      })
-      describe('A função create', () => {
-
-        it('Deve retornar um status 200 com o conteúdo criado', async () => {
+      });
+      describe("A função create", () => {
+        it("Deve retornar um status 200 com o conteúdo criado", async () => {
           sinon.stub(productsServices, "create").resolves("Teste");
 
           await productsController.create(req, res, next);
@@ -175,16 +171,15 @@ describe('Testa a camada de productsControllers', () => {
     });
   });
 
-  describe('Testa a função update', () => {
-
-    describe('A função update', () => {
+  describe("Testa a função update da productControllers", () => {
+    describe("A função update", () => {
       const res = {};
       const req = {};
-      const next = () => { };
-      
+      const next = () => {};
+
       beforeEach(() => {
-        req.body = { name: 'teste' };
-        req.params = { id: 1 }
+        req.body = { name: "teste" };
+        req.params = { id: 1 };
         res.status = sinon.stub().returns(res);
         res.json = sinon.stub().returns();
         sinon.stub(productsServices, "checkExistsProduct").resolves(1);
@@ -199,11 +194,11 @@ describe('Testa a camada de productsControllers', () => {
       it("Deve atualizar o DB Se todas as validações retornarem true", async () => {
         await productsController.update(req, res, next);
         expect(res.status.calledWith(200)).to.be.equal(true);
-        expect(res.json.calledWith({ id: 1, name: 'teste' })).to.be.equal(true);
+        expect(res.json.calledWith({ id: 1, name: "teste" })).to.be.equal(true);
       });
     });
 
-    describe('A função update', () => {
+    describe("A função update", () => {
       const res = {};
       const req = {};
       const next = sinon.spy();
@@ -212,21 +207,57 @@ describe('Testa a camada de productsControllers', () => {
         sinon.restore();
       });
 
-      it('Deve lançar um erro no next caso a função checkExistsProduct lance um erro', async () => {
-        sinon.stub(productsServices, 'checkExistsProduct').rejects();
+      it("Deve lançar um erro no next caso a função checkExistsProduct lance um erro", async () => {
+        sinon.stub(productsServices, "checkExistsProduct").rejects();
         try {
           await productsController.update(req, res, next);
-          
         } catch (error) {
           expect(next.calledWith(error)).to.be.equal(true);
         }
-
       });
 
       it("Deve lançar um erro no next caso a função validateProductName lance um erro", async () => {
         sinon.stub(productsServices, "validateProductName").throws();
         try {
           await productsController.update(req, res, next);
+        } catch (error) {
+          expect(next.calledWith(error)).to.be.equal(true);
+        }
+      });
+    });
+  });
+
+  describe('Testa a função delete da productControllers', () => {
+
+    describe('A função delete', () => {
+      const res = {};
+      const req = {};
+      const next = sinon.spy();
+
+      beforeEach(() => {
+        res.status = sinon.stub().returns(res);
+        req.params = { id: 1 };
+      })
+
+      afterEach(() => {
+        sinon.restore();
+      });
+
+      it('Deve chamar o res.status com o statusCode 204 caso remova o produto', async () => {
+        sinon.stub(productsServices, 'checkExistsProduct').resolves();
+        sinon.stub(productsServices, 'delete').resolves();
+
+        await productsController.delete(req, res, next);
+
+        expect(res.status.calledWith(204)).to.be.equal(true);
+      });
+
+      it('Deve chamar o next passando um erro como parâmetro caso não exista o produto no DB', async () => {
+        try {
+
+          sinon.stub(productsServices, "checkExistsProduct").rejects();
+          await productsController.delete(req, res, next);
+
         } catch (error) {
           expect(next.calledWith(error)).to.be.equal(true);
         }
