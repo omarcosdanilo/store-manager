@@ -1,5 +1,18 @@
 const errorMiddleware = (err, _req, res, _next) => {
-  res.status(err.status).json(err.message);
+  switch (err.message) {
+    case '"name" length must be at least 5 characters long':
+      res.status(422).json(err.message);
+      break;
+    case '"name" is required':
+      res.status(400).json(err.message);
+      break;
+    case 'Product not found':
+      res.status(404).json(err.message);
+      break;
+    default:
+      res.status(err.status).json(err.message);
+      break;
+  }
 };
 
 module.exports = errorMiddleware;
