@@ -16,7 +16,7 @@ const CREATED_RESPONSE = {
   warningStatus: 0,
 };
 
-describe('Testa a função create da camada salesModels', () => {
+describe('Testa a função create da salesModels', () => {
   describe('Se a criação for bem sucedida', () => {
     
     before(() => {
@@ -34,8 +34,9 @@ describe('Testa a função create da camada salesModels', () => {
     })
 
   })
-})
-describe('Testa a função getAll da camada salesModels', () => {
+});
+
+describe('Testa a função getAll da salesModels', () => {
   describe("Se não encontrar nenhum dado no DB", () => {
     
     beforeEach(() => {
@@ -52,9 +53,9 @@ describe('Testa a função getAll da camada salesModels', () => {
       expect(data).to.be.an('array');
     })
   });
-})
+});
 
-describe('Testa a função "exists" da camada salesModel', () => {
+describe('Testa a função "exists" da salesModel', () => {
 
   describe('A função "exists"', () => {
 
@@ -82,9 +83,9 @@ describe('Testa a função "exists" da camada salesModel', () => {
       chai.expect(salesModels.exists(1)).to.be.eventually.true
     });
   });
-})
+});
 
-describe('Testa a função getById da camada salesModel', () => {
+describe('Testa a função getById da salesModel', () => {
 
   describe('A função getById', () => {
 
@@ -107,4 +108,22 @@ describe('Testa a função getById da camada salesModel', () => {
       chai.expect(salesModels.getById(1)).to.eventually.be.equal('array');
     });
   })
-})
+});
+
+describe("Testa a função delete da salesModel", () => {
+  describe("A função delete", () => {
+    afterEach(() => {
+      sinon.restore();
+    });
+
+    it("Deve lançar um erro caso dê problema no DB", () => {
+      sinon.stub(connection, "query").rejects();
+      chai.expect(salesModels.delete(1)).to.eventually.be.rejected;
+    });
+
+    it("Deve deletar o produto", () => {
+      sinon.stub(connection, "query").resolves();
+      chai.expect(salesModels.delete(1)).to.eventually.be.ok;
+    });
+  });
+});

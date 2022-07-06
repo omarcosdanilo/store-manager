@@ -165,21 +165,21 @@ describe('Testa a camada productServices', () => {
     });
   });
 
-    describe("Testa a função delete da productServices", () => {
-      describe("A função delete", () => {
-        afterEach(() => {
-          sinon.restore();
-        });
+  describe("Testa a função delete da productServices", () => {
+    describe("A função delete", () => {
+      afterEach(() => {
+        sinon.restore();
+      });
 
-        it("Deve lançar um erro caso dê problema no DB", () => {
-          sinon.stub(productsModel, 'delete').rejects();
-          chai.expect(productsServices.delete(1)).to.eventually.be.rejected;
-        });
+      it("Deve lançar um erro caso dê problema no DB", () => {
+        sinon.stub(productsModel, 'delete').rejects();
+        chai.expect(productsServices.delete(1)).to.eventually.be.rejected;
+      });
 
-        it("Deve deletar caso não tenha nenhum problema", () => {
-          sinon.stub(productsModel, 'delete').resolves();
-          chai.expect(productsServices.delete(1)).to.eventually.be.ok;
-        });
+      it("Deve deletar caso não tenha nenhum problema", () => {
+        sinon.stub(productsModel, 'delete').resolves();
+        chai.expect(productsServices.delete(1)).to.eventually.be.ok;
       });
     });
+  });
 });

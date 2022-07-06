@@ -109,7 +109,7 @@ describe('Testa a função create da camada salesController', () => {
     res.status = sinon.stub().returns(res);
     res.json = sinon.stub().returns();
 
-    it('O next deve ser chamado com o objeto { status: 400, message: { message: "productId" is required } }', async () => {
+    it('O next deve ser chamado com o erro "productId" is required', async () => {
       req.body = [
         {
           quantity: 1,
@@ -119,13 +119,15 @@ describe('Testa a função create da camada salesController', () => {
           quantity: 5,
         },
       ];
+      try {
+        await salesController.create(req, res, next);
+      } catch (error) {
+        expect(next.calledWith(error)).to.be.equal(true);
+      }
 
-      await salesController.create(req, res, next);
-
-      expect(next.calledWith({ status: 400, message: { message: '"productId" is required' } })).to.be.equal(true);
     });
 
-    it('O next deve ser chamado com o objeto { status: 400, message: { message: "quantity" is required } }', async () => {
+    it('O next deve ser chamado com o erro  "quantity" is required ', async () => {
       req.body = [
         {
           productId: 1,
@@ -136,14 +138,11 @@ describe('Testa a função create da camada salesController', () => {
         },
       ];
 
-      await salesController.create(req, res, next);
-
-      expect(
-        next.calledWith({
-          status: 400,
-          message: { message: '"quantity" is required' },
-        })
-      ).to.be.equal(true);
+      try {
+        await salesController.create(req, res, next);
+      } catch (error) {
+        expect(next.calledWith(error)).to.be.equal(true);
+      }
     });
   });
 });
@@ -174,7 +173,7 @@ describe('Testa a função getById da salesController', () => {
 
     it("Deve chamar o res.json passando um array com as vendas encontradas", async () => {
       sinon.stub(salesService, "checkExistsSale").resolves(true);
-       sinon.stub(salesService, "getById").resolves([[]]);
+      sinon.stub(salesService, "getById").resolves([[]]);
       req.params = { id: 1 };
       await salesController.getById(req, res);
 
@@ -182,4 +181,39 @@ describe('Testa a função getById da salesController', () => {
       expect(res.json.calledWith([[]])).to.be.equal(true);
     });
   })
-})
+});
+
+describe("Testa a função delete da salesController", () => {
+  describe("A função delete", () => {
+    const res = {};
+    const req = {};
+    const next = sinon.spy();
+
+    beforeEach(() => {
+      res.status = sinon.stub().returns(res);
+      req.params = { id: 1 };
+    });
+
+    afterEach(() => {
+      sinon.restore();
+    });
+
+    it("Deve chamar o res.status com o statusCode 204 caso remova o produto", async () => {
+      sinon.stub(salesService, "checkExistsProduct").resolves();
+      sinon.stub(salesService, "delete").resolves();
+
+      await salesController.delete(req, res, next);
+
+      expect(res.status.calledWith(204)).to.be.equal(true);
+    });
+
+    it("Deve chamar o next passando um erro como parâmetro caso não exista o produto no DB", async () => {
+      try {
+        sinon.stub(salesService, "checkExistsProduct").rejects();
+        await salesController.delete(req, res, next);
+      } catch (error) {
+        expect(next.calledWith(error)).to.be.equal(true);
+      }
+    });
+  });
+});
