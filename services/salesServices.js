@@ -1,7 +1,8 @@
 const salesModel = require('../models/salesModel');
 const salesProductModel = require('../models/salesProductModel');
+const errorEncoding = require('../utils/errorEncoding');
 
-const error = require('../helpers/errorObject');
+// const error = require('../helpers/errorObject');
 
 const salesService = {
 
@@ -9,14 +10,14 @@ const salesService = {
     const productsIds = sales.map((sale) => sale.productId);
     const includesZeroOrUnder = sales.some((sale) => sale.quantity === 0 || sale.quantity < 0);
 
-    if (productsIds.includes(undefined)) throw error[3];
-    if (includesZeroOrUnder) throw error[5];
+    if (productsIds.includes(undefined)) errorEncoding(400, '"productId" is required');
+    if (includesZeroOrUnder) errorEncoding(422, '"quantity" must be greater than or equal to 1');
   },
 
   validateQuantity(sales) {
     const quantities = sales.map((sale) => sale.quantity);
 
-    if (quantities.includes(undefined)) throw error[4];
+    if (quantities.includes(undefined)) errorEncoding(400, '"quantity" is required');
   },
 
   async checkExistsProduct(sales) {
@@ -29,7 +30,7 @@ const salesService = {
     const reduced = products.reduce((acc, currValue) => acc.concat(currValue), []);
     const exists = productsIds.length === reduced.length;
     
-    if (!exists) throw error[6];
+    if (!exists) errorEncoding(404, 'Product not found');
     
     return true;
   },
@@ -37,7 +38,7 @@ const salesService = {
   async checkExistsSale(id) {
     const exist = await salesModel.exists(id);
 
-    if (!exist) throw error[7];
+    if (!exist) errorEncoding(404, 'Sale not found');
 
     return true;
   },
@@ -77,6 +78,10 @@ const salesService = {
     }));
 
     return formated;
+  },
+
+  async delete(id) {
+    await salesModel.delete(id);
   },
 };
 

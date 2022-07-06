@@ -35,6 +35,18 @@ const salesController = {
       next(error);
     }
   },
+
+  async delete(req, res, next) {
+    try {
+      const { id } = req.params;
+      await salesService.checkExistsSale(id);
+      await salesService.delete(id);
+
+      res.status(204).end();
+    } catch (error) {
+      next(error);
+    }
+  },
 };
 
 module.exports = salesController;
