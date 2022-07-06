@@ -14,8 +14,8 @@ Para a gestão dos dados foi utilizado o MySQL.
 ## Stack utilizada
 
 **Back-end:**
-Node.js, Express.
-<img align="center" height="30" width="40" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" />
+<img align="center" height="30" width="40" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original-wordmark.svg" />
+<img align="center" height="30" width="40" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/express/express-original-wordmark.svg" />
 
 **Testes:**
 Mocha, Chai e Sinon.
