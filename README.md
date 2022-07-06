@@ -15,7 +15,7 @@ Para a gestão dos dados foi utilizado o MySQL.
 
 **Back-end:**
 <img align="center" height="50" width="60" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original-wordmark.svg" />
-<img align="center" height="50" width="60" color="white" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/express/express-original-wordmark.svg" />
+<img align="center" height="50" width="60" background-color="white" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/express/express-original-wordmark.svg" />
 
 **Testes:**
 Mocha, Chai e Sinon.
