@@ -83,6 +83,12 @@ const salesService = {
   async delete(id) {
     await salesModel.delete(id);
   },
+
+  async update(saleId, updates) {
+    await Promise.all(
+      updates.map((update) => salesProductModel.update({ saleId, ...update })),
+    );
+  },
 };
 
 module.exports = salesService;

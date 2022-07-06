@@ -39,6 +39,17 @@ const WRONG_SALES_MOCK = [
   },
 ];
 
+const UPDATES = [
+  {
+    productId: 1,
+    quantity: 10,
+  },
+  {
+    productId: 2,
+    quantity: 50,
+  },
+];
+
 describe("Testa a função create da camada salesServices", () => {
   describe("Se a criação for bem sucedida", () => {
     before(() => {
@@ -165,4 +176,25 @@ describe("A função delete", () => {
     chai.expect(salesService.delete(1)).to.eventually.be.ok;
   });
 });
+});
+
+describe("Testa a função update da salesServices", () => {
+  describe("A função update", () => {
+    afterEach(() => {
+      sinon.restore();
+    });
+
+    it("Deve retornar um erro caso dê problema no DB", () => {
+      sinon.stub(salesProductModel, 'update').rejects();
+      return chai.expect(salesService.update()).to.be
+        .eventually.rejected;
+    });
+
+    it("Deve atualizar caso não dê problema no DB", () => {
+      sinon.stub(salesProductModel, 'update').resolves();
+      return Promise.all([
+        chai.expect(salesService.update(1, UPDATES)).to.eventually.be.fulfilled,
+      ]);
+    });
+  });
 });

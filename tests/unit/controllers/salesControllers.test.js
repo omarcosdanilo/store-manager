@@ -217,3 +217,43 @@ describe("Testa a função delete da salesController", () => {
     });
   });
 });
+
+describe('Testa a função update da salesController', () => {
+
+  describe('A função salesController', () => {
+
+    const res = {};
+    const req = {};
+    const next = sinon.spy();
+
+    beforeEach(() => {
+      res.status = sinon.stub().returns(res);
+      req.params = { id: 1 };
+      req.body = [
+        {
+          productId: 1,
+          quantity: 10,
+        },
+        {
+          productId: 2,
+          quantity: 50,
+        },
+      ];
+    });
+
+    afterEach(() => {
+      sinon.restore();
+    });
+
+    it("Deve chamar o método status com o status code 200 se o DB for atualiazado", async () => {
+      sinon.stub(salesService, "validateProductId").returns(true);
+      sinon.stub(salesService, "validateQuantity").returns(true);
+      sinon.stub(salesService, "checkExistsSale").resolves(true);
+      sinon.stub(salesService, "checkExistsProduct").resolves(true);
+
+      await salesController.update(req, res, next);
+
+      expect(res.status.calledWith(200)).to.be.equal(true);
+    });
+  });
+});

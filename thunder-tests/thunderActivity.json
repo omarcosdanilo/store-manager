@@ -163,5 +163,43 @@
       "form": []
     },
     "tests": []
+  },
+  {
+    "_id": "43ed4d58-3237-498b-aece-d97a806888b1",
+    "colId": "history",
+    "containerId": "",
+    "name": "localhost:3000/sales/30",
+    "url": "localhost:3000/sales/30",
+    "method": "PUT",
+    "sortNum": 0,
+    "created": "2022-07-06T15:49:58.821Z",
+    "modified": "2022-07-06T15:49:58.923Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "  [\n    {\n      \"productId\": 1,\n      \"quantity\":10\n    },\n    {\n      \"productId\": 2,\n      \"quantity\":50\n    }\n  ]",
+      "form": []
+    },
+    "tests": []
+  },
+  {
+    "_id": "a07c68e9-1a69-4c55-9f14-ab9e2785a7e2",
+    "colId": "history",
+    "containerId": "",
+    "name": "localhost:3000/sales/1",
+    "url": "localhost:3000/sales/1",
+    "method": "PUT",
+    "sortNum": 0,
+    "created": "2022-07-06T15:51:04.241Z",
+    "modified": "2022-07-06T15:57:38.363Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "  [\n    {\n      \"quantity\":5\n    }\n  ]",
+      "form": []
+    },
+    "tests": []
   }
 ]
