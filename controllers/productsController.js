@@ -1,7 +1,5 @@
 const productsService = require('../services/productsService');
 
-// const ERROR_NUMBER = '0';
-
 const productsController = {
   
   async getAll(req, res, next) {
@@ -61,6 +59,18 @@ const productsController = {
       await productsService.delete(id);
   
       res.status(204).end();
+    } catch (error) {
+      next(error);
+    }
+  },
+
+  async getByQuery(req, res, next) {
+    try {
+      const { q } = req.query;
+
+      const result = await productsService.getByQuery(q);
+
+      res.status(200).json(result);
     } catch (error) {
       next(error);
     }

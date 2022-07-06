@@ -201,5 +201,85 @@
       "form": []
     },
     "tests": []
+  },
+  {
+    "_id": "920abb52-48c5-4d0b-bb02-e2e8c762b49d",
+    "colId": "history",
+    "containerId": "",
+    "name": "localhost:3000/products/search?q=teste",
+    "url": "localhost:3000/products/search?q=teste",
+    "method": "GET",
+    "sortNum": 0,
+    "created": "2022-07-06T21:36:36.545Z",
+    "modified": "2022-07-06T21:36:42.626Z",
+    "headers": [],
+    "params": [
+      {
+        "name": "q",
+        "value": "teste",
+        "isPath": false
+      }
+    ],
+    "tests": []
+  },
+  {
+    "_id": "a0de4c8d-23ab-4c8a-a4cc-050e075c12d6",
+    "colId": "history",
+    "containerId": "",
+    "name": "localhost:3000/products/search?q=ma",
+    "url": "localhost:3000/products/search?q=ma",
+    "method": "GET",
+    "sortNum": 0,
+    "created": "2022-07-06T21:49:41.126Z",
+    "modified": "2022-07-06T21:59:29.244Z",
+    "headers": [],
+    "params": [
+      {
+        "name": "q",
+        "value": "ma",
+        "isPath": false
+      }
+    ],
+    "tests": []
+  },
+  {
+    "_id": "1c428454-2132-47c4-b378-b06b26c18569",
+    "colId": "history",
+    "containerId": "",
+    "name": "localhost:3000/products/search?q=fsfsfsdfsdfsfsfsf",
+    "url": "localhost:3000/products/search?q=fsfsfsdfsdfsfsfsf",
+    "method": "GET",
+    "sortNum": 0,
+    "created": "2022-07-06T21:58:00.556Z",
+    "modified": "2022-07-06T21:58:08.439Z",
+    "headers": [],
+    "params": [
+      {
+        "name": "q",
+        "value": "fsfsfsdfsdfsfsfsf",
+        "isPath": false
+      }
+    ],
+    "tests": []
+  },
+  {
+    "_id": "a09f4568-e5b5-4d28-9f13-bf10002b978b",
+    "colId": "history",
+    "containerId": "",
+    "name": "localhost:3000/products/search?q=j",
+    "url": "localhost:3000/products/search?q=j",
+    "method": "GET",
+    "sortNum": 0,
+    "created": "2022-07-06T21:59:43.307Z",
+    "modified": "2022-07-06T21:59:43.324Z",
+    "headers": [],
+    "params": [
+      {
+        "name": "q",
+        "value": "j",
+        "isPath": false
+      }
+    ],
+    "tests": []
   }
 ]
